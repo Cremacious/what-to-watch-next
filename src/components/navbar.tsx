@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { useSession, signOut } from '@/lib/auth-client';
+import { Button } from './ui/button';
 
 const Navbar = () => {
   const { data: session } = useSession();
@@ -14,14 +15,13 @@ const Navbar = () => {
           {user ? (
             // User is logged in - show user info
             <div className="flex items-center space-x-4 text-white">
-              <span>Welcome, {user.name}!</span>
-              <span className="text-sm opacity-75">{user.email}</span>
-              <button
+
+              <Button
                 onClick={() => signOut()}
                 className="bg-red-600 px-3 py-1 rounded hover:bg-red-700"
               >
                 Sign Out
-              </button>
+              </Button>
             </div>
           ) : (
             // User is not logged in - show sign in/up links
