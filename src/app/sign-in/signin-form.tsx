@@ -16,12 +16,15 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { signInFormSchema } from '@/lib/validators/auth.validator';
-// import Spinner from '@/components/Spinner';
+import Spinner from '@/components/Spinner';
+import { signIn } from '@/lib/auth-client';
+import { useRouter } from 'next/navigation';
 
 export function SignInForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(signInFormSchema),
     defaultValues: {
@@ -32,14 +35,24 @@ export function SignInForm({
 
   const onSubmit = async (data: z.infer<typeof signInFormSchema>) => {
     try {
-      // Simulate a sign-up API call
-      console.log('Signing up with data:', data);
-      toast.success('Sign up successful!');
+      const result = await signIn.email({
+        email: data.email,
+        password: data.password,
+      });
+
+      if (result.error) {
+        toast.error(result.error.message || 'Sign in failed');
+      } else {
+        toast.success('Sign in successful! Redirecting...');
+        router.push('/dashboard');
+      }
     } catch (error) {
-      console.error('Sign up error:', error);
-      toast.error('Sign up failed. Please try again.');
+      console.error('Sign in error:', error);
+      toast.error('Sign in failed. Please try again.');
     }
   };
+
+  const { isSubmitting } = form.formState;
 
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
@@ -105,8 +118,12 @@ export function SignInForm({
                     )}
                   />
 
-                  <Button type="submit" className="w-full">
-                    Sign In
+                  <Button
+                    type="submit"
+                    className="w-full"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? <Spinner /> : 'Sign In'}
                   </Button>
 
                   <div className="text-center text-sm">

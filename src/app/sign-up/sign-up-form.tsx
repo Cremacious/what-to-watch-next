@@ -17,13 +17,15 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { signUpFormSchema } from '@/lib/validators/auth.validator';
-import { signUpAction } from '@/lib/actions/auth.actions';
+import { signUp } from '@/lib/auth-client';
+import { useRouter } from 'next/navigation';
 import Spinner from '@/components/Spinner';
 
 export function SignUpForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
@@ -35,11 +37,22 @@ export function SignUpForm({
   });
 
   const onSubmit = async (data: z.infer<typeof signUpFormSchema>) => {
-    const result = await signUpAction(data);
-    if (result.success) {
-      toast.success(result.message);
-    } else {
-      toast.error(result.message);
+    try {
+      const result = await signUp.email({
+        email: data.email,
+        name: data.username,
+        password: data.password,
+      });
+
+      if (result.error) {
+        toast.error(result.error.message || 'Sign up failed');
+      } else {
+        toast.success('Sign up successful! Redirecting...');
+        router.push('/dashboard');
+      }
+    } catch (error) {
+      console.error('Sign up error:', error);
+      toast.error('Sign up failed. Please try again.');
     }
   };
 
