@@ -38,3 +38,4 @@ export interface OMDBError {
 }
 
 export type OMDBResponse = OMDBMovie | OMDBError;
+

@@ -1,8 +1,9 @@
 import { redirect } from 'next/navigation';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
+import { cache } from 'react';
 
-export async function getAuthenticatedUser() {
+export const getAuthenticatedUser = cache(async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -12,7 +13,7 @@ export async function getAuthenticatedUser() {
   }
 
   return session.user;
-}
+});
 
 export async function getOptionalUser() {
   try {
