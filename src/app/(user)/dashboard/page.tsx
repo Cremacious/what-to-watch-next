@@ -1,10 +1,7 @@
-// import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-// import { getAuthenticatedUser } from '@/lib/auth-server';
 import MovieSearchForm from '@/components/MovieSearchForm';
 
-export default async function DashboardPage() {
-  // const user = await getAuthenticatedUser();
+export default function DashboardPage() {
 
   return (
     <div className="flex flex-col min-h-svh items-center justify-center">
