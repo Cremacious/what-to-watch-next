@@ -66,26 +66,20 @@ export async function addMovieToList(listId: string, movieData: OMDBMovie) {
     if (!session) {
       return { success: false, error: 'User not authenticated' };
     }
-
-    // Verify the list exists and belongs to the user
     const movieList = await prisma.movieList.findFirst({
       where: {
         id: listId,
-        userId: session.id, // Ensure user owns the list
+        userId: session.id,
       },
     });
 
     if (!movieList) {
       return { success: false, error: 'Movie list not found or access denied' };
     }
-
-    // Use a transaction to ensure data consistency
     await prisma.$transaction(async (tx) => {
-      // First, upsert the movie
       const movie = await tx.movie.upsert({
         where: { imdbId: movieData.imdbID },
         update: {
-          // Update movie data in case it changed
           title: movieData.Title,
           year: movieData.Year,
           genre: movieData.Genre,
@@ -113,8 +107,6 @@ export async function addMovieToList(listId: string, movieData: OMDBMovie) {
           type: movieData.Type,
         },
       });
-
-      // Check if movie is already in the list
       const existingItem = await tx.movieListItem.findUnique({
         where: {
           movieListId_movieId: {
@@ -127,8 +119,6 @@ export async function addMovieToList(listId: string, movieData: OMDBMovie) {
       if (existingItem) {
         throw new Error('Movie is already in this list');
       }
-
-      // Add movie to list
       await tx.movieListItem.create({
         data: {
           movieListId: listId,
@@ -138,7 +128,6 @@ export async function addMovieToList(listId: string, movieData: OMDBMovie) {
 
       return movie;
     });
-
     revalidatePath('/dashboard');
     revalidatePath('/movie');
     return { success: true, message: 'Movie added to list successfully' };

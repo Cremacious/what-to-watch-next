@@ -9,17 +9,10 @@ import { OMDBMovie } from '@/lib/types';
 
 interface AddFilmButtonProps {
   movieData: OMDBMovie;
-  variant?: 'default' | 'outline' | 'secondary' | 'ghost';
-  size?: 'default' | 'sm' | 'lg' | 'icon';
-  className?: string;
 }
 
-const AddFilmButton = ({
-  movieData,
-  variant = 'default',
-  size = 'default',
-  className,
-}: AddFilmButtonProps) => {
+const AddFilmButton = ({ movieData }: AddFilmButtonProps) => {
+  
   const [dialogOpen, setDialogOpen] = useState(false);
   const { user, isLoading } = useUserStore();
 
@@ -29,12 +22,7 @@ const AddFilmButton = ({
 
   return (
     <>
-      <Button
-        onClick={() => setDialogOpen(true)}
-        variant={variant}
-        size={size}
-        className={className}
-      >
+      <Button onClick={() => setDialogOpen(true)}>
         <Plus className="h-4 w-4 mr-2" />
         Add to List
       </Button>
