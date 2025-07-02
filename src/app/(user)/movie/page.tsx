@@ -1,4 +1,5 @@
 import { getMovie } from '@/lib/actions/movie.actions';
+import Image from 'next/image';
 
 interface MoviePageProps {
   searchParams: { title?: string };
@@ -38,7 +39,16 @@ export default async function MoviePage({ searchParams }: MoviePageProps) {
       <div className="max-w-2xl mx-auto">
         <h1 className="text-3xl font-bold text-white mb-4">{movie.Title}</h1>
         <div className="grid md:grid-cols-2 gap-6">
-          <div></div>
+          <div>
+            {' '}
+            <Image
+              width={500}
+              height={750}
+              src={movie.Poster}
+              alt={`${movie.Title} Poster`}
+              className="w-full h-auto rounded-lg shadow-md"
+            />
+          </div>
           <div className="space-y-4 text-white">
             <p>
               <strong>Year:</strong> {movie.Year}

@@ -28,9 +28,7 @@ const MovieSearchForm = () => {
   });
 
   function onSubmit(query: z.infer<typeof movieSearchSchema>) {
-    router.push(
-      `/dashboard/movie?title=${encodeURIComponent(query.movieTitle)}`
-    );
+    router.push(`/movie?title=${encodeURIComponent(query.movieTitle)}`);
   }
   const { isSubmitting } = form.formState;
 

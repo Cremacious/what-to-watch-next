@@ -13,9 +13,10 @@ const Navbar = () => {
         <div className="text-white">Mack Movies</div>
         <div className="flex space-x-4">
           {user ? (
-            // User is logged in - show user info
             <div className="flex items-center space-x-4 text-white">
-
+              <Link href="/dashboard" className="text-white">
+                Dashboard
+              </Link>
               <Button
                 onClick={() => signOut()}
                 className="bg-red-600 px-3 py-1 rounded hover:bg-red-700"
