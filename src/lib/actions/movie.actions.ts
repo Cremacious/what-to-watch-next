@@ -60,41 +60,97 @@ export async function createMovieList(name: string, description?: string) {
   }
 }
 
-export async function addMovieToList(listId: string, movieId: string) {
+export async function addMovieToList(listId: string, movieData: OMDBMovie) {
   try {
     const session = await getAuthenticatedUser();
     if (!session) {
       return { success: false, error: 'User not authenticated' };
     }
 
-    const existingItem = await prisma.movieListItem.findFirst({
+    // Verify the list exists and belongs to the user
+    const movieList = await prisma.movieList.findFirst({
       where: {
-        movieId,
-        movieListId: listId,
+        id: listId,
+        userId: session.id, // Ensure user owns the list
       },
     });
 
-    if (existingItem) {
-      return { success: false, error: 'Movie already exists in the list' };
+    if (!movieList) {
+      return { success: false, error: 'Movie list not found or access denied' };
     }
 
-    const newItem = await prisma.movieListItem.create({
-      data: {
-        movieId,
-        movieListId: listId,
-      },
+    // Use a transaction to ensure data consistency
+    await prisma.$transaction(async (tx) => {
+      // First, upsert the movie
+      const movie = await tx.movie.upsert({
+        where: { imdbId: movieData.imdbID },
+        update: {
+          // Update movie data in case it changed
+          title: movieData.Title,
+          year: movieData.Year,
+          genre: movieData.Genre,
+          director: movieData.Director,
+          actors: movieData.Actors,
+          plot: movieData.Plot,
+          poster: movieData.Poster,
+          imdbRating: movieData.imdbRating,
+          runtime: movieData.Runtime,
+          released: movieData.Released,
+          type: movieData.Type,
+        },
+        create: {
+          imdbId: movieData.imdbID,
+          title: movieData.Title,
+          year: movieData.Year,
+          genre: movieData.Genre,
+          director: movieData.Director,
+          actors: movieData.Actors,
+          plot: movieData.Plot,
+          poster: movieData.Poster,
+          imdbRating: movieData.imdbRating,
+          runtime: movieData.Runtime,
+          released: movieData.Released,
+          type: movieData.Type,
+        },
+      });
+
+      // Check if movie is already in the list
+      const existingItem = await tx.movieListItem.findUnique({
+        where: {
+          movieListId_movieId: {
+            movieListId: listId,
+            movieId: movie.id,
+          },
+        },
+      });
+
+      if (existingItem) {
+        throw new Error('Movie is already in this list');
+      }
+
+      // Add movie to list
+      await tx.movieListItem.create({
+        data: {
+          movieListId: listId,
+          movieId: movie.id,
+        },
+      });
+
+      return movie;
     });
 
-    revalidatePath(`/lists/${listId}`);
-    return { success: true, item: newItem };
+    revalidatePath('/dashboard');
+    revalidatePath('/movie');
+    return { success: true, message: 'Movie added to list successfully' };
   } catch (error) {
     console.error('Error adding movie to list:', error);
     return { success: false, error: 'Failed to add movie to list' };
   }
 }
+
 export async function createListAndAddMovie(
   listName: string,
-  movieData: string,
+  movieData: OMDBMovie,
   description?: string
 ) {
   try {
@@ -108,7 +164,7 @@ export async function createListAndAddMovie(
       return { success: false, error: 'Failed to create list' };
     }
 
-    const addResult = await addMovieToList(movieData, listResult.list.id);
+    const addResult = await addMovieToList(listResult.list.id, movieData);
     if (!addResult.success) {
       return { success: false, error: addResult.error };
     }
@@ -119,4 +175,3 @@ export async function createListAndAddMovie(
     return { success: false, error: 'Failed to create list and add movie' };
   }
 }
-

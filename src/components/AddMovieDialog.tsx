@@ -82,7 +82,7 @@ export function AddMovieToListDialog({
     }
 
     setIsLoading(true);
-    const result = await addMovieToList(selectedListId, movieData.imdbID);
+    const result = await addMovieToList(selectedListId, movieData);
 
     if (result.success) {
       toast.success('Movie added to list!');
@@ -103,7 +103,7 @@ export function AddMovieToListDialog({
     setIsLoading(true);
     const result = await createListAndAddMovie(
       newListName.trim(),
-      movieData.imdbID,
+      movieData,
       newListDescription.trim() || undefined
     );
 
