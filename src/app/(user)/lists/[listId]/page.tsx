@@ -2,11 +2,13 @@ import { getListById } from '@/lib/actions/movie.actions';
 import { getAuthenticatedUser } from '@/lib/auth-server';
 import Link from 'next/link';
 
-const ListPage = async ({ params }: { params: { listId: string } }) => {
+const ListPage = async (props: { params: Promise<{ listId: string }> }) => {
   const user = await getAuthenticatedUser();
   if (!user) {
     return <div>Please log in to view this list.</div>;
   }
+
+  const params = await props.params;
 
   const listResult = await getListById(params.listId, user.id);
   if (!listResult.success) {
