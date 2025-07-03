@@ -59,7 +59,7 @@ export function SignInForm({
   const { isSubmitting } = form.formState;
 
   return (
-    <div className={cn('flex flex-col gap-6', className)} {...props}>
+    <div className={cn('flex flex-col gap-6 my-4', className)} {...props}>
       <div className="relative">
         {/* Background Gradient Glow */}
         <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 via-purple-500/20 to-pink-500/20 rounded-2xl blur-2xl"></div>

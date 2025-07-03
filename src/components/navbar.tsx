@@ -44,6 +44,13 @@ const Navbar = () => {
                     Lists
                     <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-500 group-hover:w-full transition-all duration-200"></span>
                   </Link>
+                  <Link
+                    href={`/profile/${user.id}`}
+                    className="text-gray-300 hover:text-white font-medium transition-colors duration-200 relative group"
+                  >
+                    Profile
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-500 group-hover:w-full transition-all duration-200"></span>
+                  </Link>
                 </div>
 
                 {/* User Menu */}
