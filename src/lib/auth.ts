@@ -3,11 +3,23 @@ import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { PrismaClient } from '@/generated/prisma';
 
 const prisma = new PrismaClient();
+
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
-    provider: 'postgresql', // Change this if you're using a different database
+    provider: 'postgresql',
   }),
   emailAndPassword: {
     enabled: true,
+    requireEmailVerification: false, 
+  },
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    },
+  },
+  session: {
+    expiresIn: 60 * 60 * 24 * 7, 
+    updateAge: 60 * 60 * 24, 
   },
 });
