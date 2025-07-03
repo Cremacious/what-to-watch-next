@@ -7,12 +7,10 @@ import {
   Film,
   Plus,
   List,
-  Calendar,
   Star,
   Eye,
   Edit,
   Trash2,
-  Share2,
   Clock,
   Search,
 } from 'lucide-react';
