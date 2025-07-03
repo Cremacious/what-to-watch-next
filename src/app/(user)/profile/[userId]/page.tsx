@@ -4,16 +4,7 @@ import { notFound } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import {
-  Calendar,
-  Mail,
-  Film,
-  List,
-  Users,
-  Edit,
-  Share2,
-  Heart,
-} from 'lucide-react';
+import { Film, List, Users, Edit, Share2, Heart } from 'lucide-react';
 
 interface UserProfilePageProps {
   params: Promise<{ userId: string }>;
@@ -65,9 +56,6 @@ export default async function UserProfilePage({
               <div className="relative">
                 <div className="w-32 h-32 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full flex items-center justify-center text-4xl font-bold text-white shadow-lg">
                   {user.name?.charAt(0) || user.email?.charAt(0) || 'U'}
-                </div>
-                <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full border-4 border-gray-800 flex items-center justify-center">
-                  <div className="w-3 h-3 bg-white rounded-full"></div>
                 </div>
               </div>
 
@@ -321,36 +309,6 @@ export default async function UserProfilePage({
                   <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                   <span className="text-gray-300">date night movies</span>
                   <span className="text-gray-500">3d ago</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Profile Stats */}
-            <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-6">
-              <div className="flex items-center space-x-3 mb-4">
-                <div className="w-3 h-3 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full"></div>
-                <h3 className="text-lg font-semibold text-white">
-                  Profile Stats
-                </h3>
-              </div>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-400 text-sm">Profile Views</span>
-                  <span className="text-white font-medium">
-                    {Math.floor(Math.random() * 1000) + 100}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-400 text-sm">Lists Shared</span>
-                  <span className="text-white font-medium">
-                    {Math.floor(Math.random() * 20) + 5}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-400 text-sm">Movies Rated</span>
-                  <span className="text-white font-medium">
-                    {Math.floor(Math.random() * 500) + 50}
-                  </span>
                 </div>
               </div>
             </div>

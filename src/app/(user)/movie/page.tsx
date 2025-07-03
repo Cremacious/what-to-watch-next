@@ -77,6 +77,7 @@ export default async function MoviePage(props: {
                 {movieData.Poster && movieData.Poster !== 'N/A' ? (
                   <Image
                     width={300}
+                    height={500}
                     src={movieData.Poster}
                     alt={movieData.Title}
                     className="w-full h-auto rounded-xl shadow-2xl"
