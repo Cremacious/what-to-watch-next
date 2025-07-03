@@ -14,7 +14,7 @@ const DashboardPage = async () => {
   const movieLists = movieListsResult.success ? movieListsResult.lists : [];
 
   return (
-    <div className="min-h-svh bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+    <div className="">
       <div className="container mx-auto px-6 py-8">
         {/* Welcome Header */}
         <div className="text-center mb-12">
@@ -28,9 +28,9 @@ const DashboardPage = async () => {
         </div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12 justify-items-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 justify-items-center">
           {/* Total Lists */}
-          <div className="w-full md:w-1/2 bg-gradient-to-br from-blue-500/10 to-blue-600/5 backdrop-blur-sm border border-blue-500/20 rounded-2xl p-6">
+          <div className="w-full bg-gradient-to-br from-blue-500/10 to-blue-600/5 backdrop-blur-sm border border-blue-500/20 rounded-2xl p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-blue-400 text-sm font-medium uppercase tracking-wide">
@@ -59,7 +59,7 @@ const DashboardPage = async () => {
           </div>
 
           {/* Total Movies */}
-          <div className="w-full md:w-1/2 bg-gradient-to-br from-purple-500/10 to-purple-600/5 backdrop-blur-sm border border-purple-500/20 rounded-2xl p-6">
+          <div className="w-full bg-gradient-to-br from-purple-500/10 to-purple-600/5 backdrop-blur-sm border border-purple-500/20 rounded-2xl p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-purple-400 text-sm font-medium uppercase tracking-wide">
@@ -75,6 +75,37 @@ const DashboardPage = async () => {
               <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center">
                 <svg
                   className="w-6 h-6 text-purple-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2h4a1 1 0 011 1v1a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1h4zM3 8v10a2 2 0 002 2h14a2 2 0 002-2V8H3z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div className="w-full bg-gradient-to-br from-green-500/10 to-green-600/5 backdrop-blur-sm border border-green-500/20 rounded-2xl p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-green-400 text-sm font-medium uppercase tracking-wide">
+                  Total Friends
+                </p>
+                <p className="text-3xl font-bold text-white mt-1">
+                  {movieLists?.reduce(
+                    (total, list) => total + (list._count?.movieItems || 0),
+                    0
+                  ) || 0}
+                </p>
+              </div>
+              <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
+                <svg
+                  className="w-6 h-6 text-green-400"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
