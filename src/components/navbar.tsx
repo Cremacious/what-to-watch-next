@@ -17,6 +17,9 @@ const Navbar = () => {
               <Link href="/dashboard" className="text-white">
                 Dashboard
               </Link>
+              <Link href="/lists" className="text-white">
+                Lists
+              </Link>
               <Button
                 onClick={() => signOut()}
                 className="bg-red-600 px-3 py-1 rounded hover:bg-red-700"

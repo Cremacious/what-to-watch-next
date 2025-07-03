@@ -39,6 +39,31 @@ export async function getUserMovieLists(userId: string) {
   }
 }
 
+export async function getListById(listId: string, userId: string) {
+  try {
+    const list = await prisma.movieList.findUnique({
+      where: {
+        id: listId,
+        userId: userId,
+      },
+      include: {
+        movieItems: {
+          include: {
+            movie: true,
+          },
+        },
+      },
+    });
+    if (!list) {
+      return { success: false, error: 'Movie list not found or access denied' };
+    }
+    return { success: true, list };
+  } catch (error) {
+    console.error('Error fetching movie list by ID:', error);
+    return { success: false, error: 'Failed to fetch movie list' };
+  }
+}
+
 export async function createMovieList(name: string, description?: string) {
   try {
     const session = await getAuthenticatedUser();
