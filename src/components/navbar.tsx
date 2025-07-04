@@ -3,10 +3,21 @@ import Link from 'next/link';
 import { useSession, signOut } from '@/lib/auth-client';
 import { Button } from './ui/button';
 import { Film } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 const Navbar = () => {
+  const router = useRouter();
   const { data: session } = useSession();
   const user = session?.user;
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      router.push('/');
+    } catch (error) {
+      console.error('Sign out failed:', error);
+    }
+  };
 
   return (
     <nav className="sticky top-0 z-50 backdrop-blur-lg bg-gray-900/80 border-b border-gray-700/50">
@@ -66,10 +77,8 @@ const Navbar = () => {
                       {user.name || 'User'}
                     </span>
                   </div>
-
-                  {/* Sign Out Button */}
                   <Button
-                    onClick={() => signOut()}
+                    onClick={handleSignOut}
                     variant="outline"
                     size="sm"
                     className="bg-transparent border-red-500/50 text-red-400 hover:bg-red-500/10 hover:border-red-500 hover:text-red-300 transition-all duration-200"

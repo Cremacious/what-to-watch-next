@@ -72,15 +72,15 @@ export default async function MoviePage(props: {
           {/* Movie Poster */}
           <div className="lg:col-span-1">
             <div className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 via-purple-500/20 to-pink-500/20 rounded-xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
-              <div className="relative bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-400/10 via-purple-500/10 to-pink-500/6 rounded-xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
+              <div className="relative rounded-xl overflow-hidden justify-center flex items-center">
                 {movieData.Poster && movieData.Poster !== 'N/A' ? (
                   <Image
-                    width={300}
-                    height={500}
+                    width={395}
+                    height={800}
                     src={movieData.Poster}
                     alt={movieData.Title}
-                    className="w-full h-auto rounded-xl shadow-2xl"
+                    className="rounded-xl shadow-2xl"
                   />
                 ) : (
                   <div className="w-full aspect-[2/3] bg-gradient-to-br from-gray-700 to-gray-800 rounded-xl flex items-center justify-center">

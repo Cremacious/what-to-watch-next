@@ -20,7 +20,7 @@ export default function HomePage() {
         <div className="container mx-auto px-6 py-20 relative">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-5xl lg:text-7xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-6 leading-tight">
-              Mack Movies
+              Mack Movies 
             </h1>
 
             <p className="text-xl text-gray-300 mb-8 leading-relaxed max-w-2xl mx-auto">
