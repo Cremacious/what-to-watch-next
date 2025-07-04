@@ -4,21 +4,22 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { AddMovieToListDialog } from './AddMovieDialog';
-import { useUserStore } from '@/stores/useUserStore';
 import { OMDBMovie } from '@/lib/types';
+
+interface User {
+  id: string;
+  email: string;
+  name?: string;
+  image?: string | null;
+}
 
 interface AddFilmButtonProps {
   movieData: OMDBMovie;
+  user: User;
 }
 
-const AddFilmButton = ({ movieData }: AddFilmButtonProps) => {
-  
+const AddFilmButton = ({ movieData, user }: AddFilmButtonProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const { user, isLoading } = useUserStore();
-
-  if (isLoading || !user) {
-    return null;
-  }
 
   return (
     <>

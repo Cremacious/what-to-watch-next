@@ -5,11 +5,13 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, Calendar, Clock, Star, Users } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { getAuthenticatedUser } from '@/lib/auth-server';
 
 export default async function MoviePage(props: {
   searchParams: Promise<{ title?: string }>;
 }) {
   const searchParams = await props.searchParams;
+  const user = await getAuthenticatedUser();
   const movieData = searchParams.title
     ? await getMovie(searchParams.title)
     : null;
@@ -122,6 +124,7 @@ export default async function MoviePage(props: {
                 </div>
               )}
             </div>
+            <AddFilmButton movieData={movieData} user={user} />
 
             {/* Movie Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -225,9 +228,7 @@ export default async function MoviePage(props: {
             </div>
 
             {/* Add to List Button */}
-            <div className="pt-6 border-t border-gray-700/50">
-              <AddFilmButton movieData={movieData} />
-            </div>
+            <div className="pt-6 border-t border-gray-700/50"></div>
           </div>
         </div>
       </div>
